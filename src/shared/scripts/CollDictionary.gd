@@ -23,3 +23,12 @@ func filter(callback: Callable):
 			filtered[key] = self.dictionary[key]
 
 	return get_script().new(filtered)
+
+func sort(callback: Callable):
+	pass
+	# pensar como ordenar -> al callbac le pasamos dos itemas y si devuelve true el primero es mas pequeñp
+#	var filtered := {}
+#	for key in self.dictionary:
+#		if callback.call(self.dictionary[key], key):
+#			filtered[key] = self.dictionary[key]
+#	return get_script().new(filtered)

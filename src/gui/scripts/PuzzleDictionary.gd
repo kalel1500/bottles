@@ -61,7 +61,8 @@ func creatr_puzzle() -> Dictionary:
 		puzzle[n] = bottleDic
 
 	puzzle[12] = {}
-	puzzle[13] = {}
+	puzzle[13] = {0:1}
+	puzzle[14] = {0:11,1:11,2:11,3:11}
 	return puzzle
 
 func render_puzzle(puzzle: Dictionary):
@@ -98,20 +99,32 @@ func render_bottle(bottle: Dictionary, position: Vector2, key: int):
 	var joined_string = "\n".join(reverse)
 	label.text = joined_string
 
-func resolve_puzzle(puzzle: Dictionary):
-	#var fillable2 = CollDictionary.new(example_dictionary)
-	#fillable2.where()
-	var testDic = {
-		"one": {"name": "pepe"},
-		"two": {"name": "juan"},
-		"tree": {"name": "pepe"},
-	}
-	var test = CollDictionary.new(testDic)
-	var tes2 = test.filter(func(item, key): return item.name == "pepe")
-	print(tes2.value())
 
-#	filled[0].pop_back()
-#	fillable[0].push_back()
+func _filter_resolved_bootles(bottle: Dictionary, key) -> bool:
+	var bottelColl = CollDictionary.new(bottle)
+	var isCompleted = bottle.size() == 4
+	var isResolved = bottelColl.filter(func(item, key): return bottle[0] == item).value().size() == 4
+	return isCompleted and isResolved
+
+func resolve_puzzle(puzzle: Dictionary):
+#	var testDic = {
+#		"one": {"name": "pepe"},
+#		"two": {"name": "juan"},
+#		"tree": {"name": "pepe"},
+#	}
+#	var test = CollDictionary.new(testDic)
+#	var tes2 = test.filter(func(item, key): return item.name == "pepe")
+#	print(tes2.value())
+
+	var puzzleColl = CollDictionary.new(puzzle)
+	var fillable = puzzleColl.filter(func(item, key): return item.size() < 4).value()
+	var filled = puzzleColl.filter(func(item, key): return item.size() > 0).value()
+	var resolved = puzzleColl.filter(_filter_resolved_bootles).value()
+	print(fillable)
+	print("-----------")
+	print(filled)
+	print("-----------")
+	print(resolved)
 
 
 func _on_btnNext_pressed():
