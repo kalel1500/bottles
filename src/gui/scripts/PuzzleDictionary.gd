@@ -23,10 +23,9 @@ var rng = RandomNumberGenerator.new()
 
 func _ready():
 	puzzle = creatr_puzzle()
-	print(puzzle)
-#	render_puzzle(puzzle)
-#	resolve_puzzle(puzzle)
-#	btnNext.pressed.connect(_on_btnNext_pressed)
+	render_puzzle(puzzle)
+	resolve_puzzle(puzzle)
+	btnNext.pressed.connect(_on_btnNext_pressed)
 
 
 func print_puzzle(iterable, isArray: bool) -> void:
@@ -65,10 +64,10 @@ func creatr_puzzle() -> Dictionary:
 	puzzle[13] = {}
 	return puzzle
 
-func render_puzzle(puzzle: Array):
+func render_puzzle(puzzle: Dictionary):
 	var posOriginal = Vector2(305, 100)
 	var pos = posOriginal
-	for key in puzzle.size():
+	for key in puzzle:
 		var bottle = puzzle[key]
 		render_bottle(bottle, pos, key)
 		if key == 5:
@@ -77,7 +76,7 @@ func render_puzzle(puzzle: Array):
 		else:
 			pos.x += 100
 
-func render_bottle(bottle: Array, position: Vector2, key: int):
+func render_bottle(bottle: Dictionary, position: Vector2, key: int):
 	var panel = Panel.new()
 	var label = Label.new()
 	self.add_child(panel)
@@ -94,23 +93,14 @@ func render_bottle(bottle: Array, position: Vector2, key: int):
 	label.layout_mode = 1
 	label.anchors_preset = PRESET_CENTER
 
-	var reverse = bottle.duplicate()
+	var reverse = bottle.values().duplicate()
 	reverse.reverse()
 	var joined_string = "\n".join(reverse)
 	label.text = joined_string
 
-func _filter_fillable_bootles(bottle: Array):
-	return bottle.size() < 4
-
-func _filter_filled_bootles(bottle: Array):
-	return bottle.size() > 0
-
-func _filter_resolved_bootles(bottle: Array):
-	return bottle.size() == 4 && bottle.filter(func(color: int): return bottle[0] == color).size() == 4
-
-func resolve_puzzle(puzzle: Array):
-#	var fillable2 = CollDictionary.new(example_dictionary)
-#	fillable2.where()
+func resolve_puzzle(puzzle: Dictionary):
+	#var fillable2 = CollDictionary.new(example_dictionary)
+	#fillable2.where()
 	var testDic = {
 		"one": {"name": "pepe"},
 		"two": {"name": "juan"},
@@ -127,6 +117,7 @@ func resolve_puzzle(puzzle: Array):
 func _on_btnNext_pressed():
 	var pannel = pannels[0]
 	remove_child(pannel)
-	puzzle[0].pop_back()
+	var fistBottle = puzzle[0]
+	fistBottle.erase(fistBottle.keys().back())
 	render_bottle(puzzle[0], Vector2(pannel.position.x, pannel.position.y), 0)
 
