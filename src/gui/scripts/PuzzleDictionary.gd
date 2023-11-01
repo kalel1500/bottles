@@ -120,11 +120,19 @@ func resolve_puzzle(puzzle: Dictionary):
 	var fillable = puzzleColl.filter(func(item, key): return item.size() < 4).value()
 	var filled = puzzleColl.filter(func(item, key): return item.size() > 0).value()
 	var resolved = puzzleColl.filter(_filter_resolved_bootles).value()
-	print(fillable)
-	print("-----------")
+	#print(fillable)
+	#print("-----------")
+	#print(filled)
+	#print("-----------")
+	#print(resolved)
+
 	print(filled)
 	print("-----------")
-	print(resolved)
+	for key in filled:
+		print(key)
+		print(filled[key])
+
+
 
 
 func _on_btnNext_pressed():

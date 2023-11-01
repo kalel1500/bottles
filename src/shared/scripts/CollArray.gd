@@ -5,6 +5,9 @@ var array: Array
 func _init(array: Array) -> void:
 	self.array = array
 
+func value():
+	return self.array
+
 func where(field: String, value: String) -> CollArray:
 	var filtered := []
 	for item in self.array:
@@ -27,3 +30,10 @@ func whereObj(obj: Dictionary) -> CollArray:
 			filtered.append(item)
 
 	return get_script().new(filtered)
+
+func pluck(field: String) -> CollArray:
+	var plucked := []
+	for item in self.array:
+		plucked.append(item[field])
+
+	return get_script().new(plucked)
